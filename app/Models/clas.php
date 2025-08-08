@@ -2,16 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Clas extends Model
 {
-    protected $table = "clases";
+    use HasFactory;
 
-    protected $guarded = [];
-
-
-    public function user(){
-        return $this->hasMany(User::class, 'clas_id');
-    }
+    // Tambahkan ini agar Laravel tahu nama tabel yang benar
+    protected $table = 'clases';
 }

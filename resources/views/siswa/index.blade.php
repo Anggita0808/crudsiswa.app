@@ -3,41 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Halaman siswa</title>
+    <title>Halaman Utama</title>
 </head>
 <body>
-    <h1>halaman Data siswa</h1>
-    <P>data siswa jurusan pplg</p>
-    <a href="/siswa/create">Tambah data</a>
-    <table border ="1px">
+    <h1><b>Halaman Utama Siswa</b></h1>
+    <h3>Daftar Siswa</h3>
+    <a href="/siswa/create">Tambah Siswa</a>
+
+    <table border="1" cellpadding="10" cellspacing="0">
         <thead>
             <tr>
-                <th>Nama</th>
-                <th>Nisn</th>
-                <th>Emain</th>
-                <th>Alamat</th>
-                <th>Opsi</th>
+                <th>NO</th>
+                <th>NAMA</th>
+                <th>KELAS</th>
+                <th>NISN</th>
+                <th>ALAMAT</th>
+                <th>PHOTO</th>
+                <th>OPTION</th>
             </tr>
         </thead>
         <tbody>
+            @foreach ($siswas as $siswa)
             <tr>
-                <td>Anggita</td>
-                <td>134</td>
-                <td>anggitaamelia@gmail.com</td>
-                <td>langensari</td>
+                <td>{{ $loop->iteration }}</td>
+                <td>{{ $siswa->name }}</td>
+                <td>{{ $siswa->clas->name ?? '-' }}</td>
+                <td>{{ $siswa->nisn }}</td>
+                <td>{{ $siswa->alamat }}</td>
                 <td>
-                    <a href="">Edit</a>
-                    <a href="">Detail</a>
-                    <a href="">Delet</a>
-                
+                    <img src="{{ asset('storage/' . $siswa->photo) }}" alt="Photo Siswa" width="80">
                 </td>
-
+                <td>
+                    <a onclick="return confirm ('apa yakinnnn?')" href="/siswa/delete/{{$siswa->id}}">HAPUS</a>
+                    |
+                    <a href="/siswa/show/{{$siswa->id}}">DETAIL</a>
+                </td>
             </tr>
+            @endforeach
         </tbody>
-            
-
     </table>
-
-    
 </body>
 </html>
