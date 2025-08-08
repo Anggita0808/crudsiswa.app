@@ -1,53 +1,33 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema;
+namespace App\Models;
 
-return new class extends Migration
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+
+class User extends Authenticatable
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    use HasFactory, Notifiable;
+
+    // Semua kolom dapat diisi (tidak ada proteksi mass-assignment)
+    protected $guarded = [];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    protected function casts(): array
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->unsignedBigInteger('clas_id');
-            $table->string('photo');
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->bigInteger('nisn');
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->string('no_handphone'); 
-            $table->rememberToken();
-            $table->timestamps();
-        });
-
-        Schema::create('password_reset_tokens', function (Blueprint $table) {
-            $table->string('email')->primary();
-            $table->string('token');
-            $table->timestamp('created_at')->nullable();
-        });
-
-        Schema::create('sessions', function (Blueprint $table) {
-            $table->string('id')->primary();
-            $table->foreignId('user_id')->nullable()->index();
-            $table->string('ip_address', 45)->nullable();
-            $table->text('user_agent')->nullable();
-            $table->longText('payload');
-            $table->integer('last_activity')->index();
-        });
+        return [
+            'email_verified_at' => 'datetime',
+            'password' => 'hashed',
+        ];
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function clas()
     {
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('password_reset_tokens');
-        Schema::dropIfExists('sessions');
+        return $this->belongsTo(Clas::class, 'clas_id');
     }
-};
+}
